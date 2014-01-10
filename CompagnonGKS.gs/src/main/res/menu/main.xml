@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fr.lepetitpingouin.android.gks="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_badges"
+        android:title="Badges"
+        android:icon="@drawable/ic_badges"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        fr.lepetitpingouin.android.gks:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_update"
+        android:title="Mise à jour..."
+        android:icon="@drawable/ic_refresh"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        fr.lepetitpingouin.android.gks:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_search"
+        android:title="Rechercher..."
+        android:icon="@drawable/ic_search_top"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        fr.lepetitpingouin.android.gks:showAsAction="always"/>
+
+</menu>

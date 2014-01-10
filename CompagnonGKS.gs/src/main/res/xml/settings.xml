@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Compte GKS"
+        android:key="pref_key_update">
+        <EditTextPreference
+            android:key="account_username"
+            android:title="Nom d'utilisateur"
+            android:summary="Nom d'utilisateur GKS"/>
+        <EditTextPreference
+            android:key="account_password"
+            android:title="Mot de passe"
+            android:password="true"
+            android:summary="Mot de passe GKS"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Mise à jour"
+        android:key="pref_key_update">
+        <CheckBoxPreference
+            android:key="pref_auto_update"
+            android:title="Mise à jour automatique"
+            android:summaryOn="Activée"
+            android:summaryOff="Désactivée"
+            android:defaultValue="true" />
+        <EditTextPreference
+            android:key="pref_freq_update"
+            android:title="Fréquence de mise à jour"
+            android:summary="(En minutes)"
+            android:dependency="pref_auto_update"
+            android:numeric="integer"
+            android:defaultValue="90"/>
+        <CheckBoxPreference
+            android:key="pref_rtc_wakeup"
+            android:title="Réveiller l'appareil"
+            android:summaryOn="Sortir de veille pour mettre à jour (consomme + de batterie)"
+            android:summaryOff="Mises à jour moins fréquentes (économise la batterie)"
+            android:dependency="pref_auto_update"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Notifications"
+        android:key="pref_key_notifications">
+        <CheckBoxPreference
+            android:key="pref_notif"
+            android:title="Notifications"
+            android:summaryOn="Afficher les notifications"
+            android:summaryOff="Ne pas afficher de notifications"
+            android:defaultValue="true" />
+        <PreferenceScreen
+            android:key="pref_screen_notif"
+            android:title="Gérer les notifications"
+            android:summary="Définir les notifications à afficher"
+            android:dependency="pref_notif"
+            android:persistent="false">
+            <CheckBoxPreference
+                android:key="pref_notif_freeleech"
+                android:title="Freeleech"
+                android:summaryOn="Avertir en cas de freeleech"
+                android:summaryOff="Ne pas avertir"
+                android:dependency="pref_notif"
+                android:defaultValue="false" />
+            <!--CheckBoxPreference
+                android:key="pref_notif_messages"
+                android:title="Nouveau MP"
+                android:summaryOn="Avertir de l'arrivée d'un MP"
+                android:summaryOff="Ne pas avertir"
+                android:dependency="pref_notif"
+                android:defaultValue="false" />
+            <CheckBoxPreference
+                android:key="pref_notif_ratio"
+                android:title="Ratio faible"
+                android:summaryOn="Avertir en cas de ratio faible"
+                android:summaryOff="Ne pas avertir"
+                android:dependency="pref_notif"
+                android:defaultValue="false" /-->
+        </PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>

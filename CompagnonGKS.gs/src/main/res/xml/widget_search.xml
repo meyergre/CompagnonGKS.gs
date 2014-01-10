@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="294dp"
+    android:minHeight="42dp"
+    android:resizeMode="horizontal"
+    android:minResizeWidth="42dp"
+    android:minResizeHeight="42dp"
+    android:initialLayout="@layout/widget_search"
+    android:previewImage="@drawable/preview_widget_search"
+    android:updatePeriodMillis="0" >
+</appwidget-provider>

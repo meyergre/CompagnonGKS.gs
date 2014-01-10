@@ -1,0 +1,116 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageView"
+        android:clickable="false"
+        android:isScrollContainer="true"
+        android:scrollbars="none"
+        android:id="@+id/linearLayout">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:padding="10dp">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:id="@+id/button3"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/bg_button"
+                    android:textColor="@color/button_color"
+                    android:layout_weight="1"
+                    android:onClick="onIncreaseClick" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:id="@+id/donate_amount"
+                        android:textSize="30dp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_horizontal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="€"
+                        android:id="@+id/textView2"
+                        android:textSize="30dp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_horizontal" />
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:id="@+id/button4"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/bg_button"
+                    android:textColor="@color/button_color"
+                    android:layout_weight="1"
+                    android:onClick="onDecreaseClick" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/abc_ab_bottom_solid_light_holo">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Faire un don"
+            android:id="@+id/button"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button"
+            android:textColor="@color/button_color"
+            android:layout_margin="3dp"
+            android:onClick="onDonateClick" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Annuler"
+            android:id="@+id/button2"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button"
+            android:textColor="@color/button_color"
+            android:layout_margin="3dp"
+            android:onClick="onCancelClick" />
+    </LinearLayout>
+</LinearLayout>

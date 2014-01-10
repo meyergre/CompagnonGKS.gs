@@ -1,0 +1,11 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:state_pressed="false"
+        android:drawable="@drawable/ic_chk_on"/>
+    <item android:state_checked="false" android:state_pressed="false"
+        android:drawable="@drawable/ic_chk_off"/>
+
+    <item android:state_checked="false" android:state_pressed="true"
+        android:drawable="@drawable/ic_chk_middle_off"/>
+    <item android:state_checked="true" android:state_pressed="true"
+        android:drawable="@drawable/ic_chk_middle_on"/>
+</selector>

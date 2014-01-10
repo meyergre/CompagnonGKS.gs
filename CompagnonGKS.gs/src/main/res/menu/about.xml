@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fr.lepetitpingouin.android.gks="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_donate"
+        android:title="Offrez-moi une bière !"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_logo_paypal"
+        android:showAsAction="ifRoom"
+        fr.lepetitpingouin.android.gks:showAsAction="ifRoom" />
+</menu>

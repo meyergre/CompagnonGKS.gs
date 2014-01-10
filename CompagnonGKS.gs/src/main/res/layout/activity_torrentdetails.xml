@@ -1,0 +1,191 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+
+    <!--LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/actionbar">
+
+        <ImageView
+                android:id="@+id/torrent_icon"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="#00000000"
+                android:src="@drawable/ic_torrent"
+                android:layout_gravity="center"
+                android:layout_margin="3dp"/>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_gravity="center">
+
+            <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/horizontalScrollView"
+                    android:layout_gravity="center_vertical"
+                    android:scrollbars="none">
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent">
+
+                    <TextView
+                            android:id="@+id/tdNom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:gravity="bottom"
+                            android:text="Titre du Torrent"
+                            android:textColor="#FFF"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:color="#0c335c"
+                            android:ellipsize="marquee"
+                            android:singleLine="true"
+                            android:layout_weight="1"/>
+
+                    <TextView
+                            android:id="@+id/tdUploader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:gravity="top"
+                            android:text="-"
+                            android:textColor="#88FFFFFF"
+                            android:textSize="12sp"
+                            android:color="#0c335c"
+                            android:ellipsize="marquee"
+                            android:singleLine="true"
+                            android:layout_gravity="left|center_vertical"
+                            android:layout_weight="1"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+    </LinearLayout-->
+
+    <WebView
+            android:id="@+id/prez"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#DDD"
+            android:minHeight="200dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+        android:layout_above="@+id/linearLayout3"
+        android:layout_alignParentTop="true" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="#ddd"
+        android:baselineAligned="true"
+        android:id="@+id/linearLayout3"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true">
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="#ddd"
+                android:id="@+id/infolayout"
+                android:orientation="horizontal"
+                android:padding="3dp"
+            android:visibility="visible"
+            android:layout_weight="1">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="--.-- KB"
+                    android:id="@+id/tdt_taille"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="#88000000"
+                    android:textSize="18sp"
+                    android:singleLine="false"
+                android:textStyle="bold"/>
+
+            <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/frameLayout"/>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayout2"
+                    android:layout_gravity="center">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="- Seeders"
+                        android:id="@+id/tdt_seeders"
+                        android:layout_gravity="left|center_vertical"
+                        android:textColor="#009900"
+                        android:textSize="12sp"
+                        android:layout_weight="0"
+                        android:singleLine="true"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="- Leechers"
+                        android:id="@+id/tdt_leechers"
+                        android:layout_gravity="left|center_vertical"
+                        android:textColor="#990000"
+                        android:textSize="12sp"
+                        android:layout_weight="0"
+                        android:singleLine="true"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="- Complets"
+                        android:id="@+id/tdt_complets"
+                        android:layout_gravity="left|center_vertical"
+                        android:textColor="#88000000"
+                        android:textSize="12sp"
+                        android:layout_weight="0"
+                        android:singleLine="true"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"></FrameLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Télécharger"
+            android:id="@+id/button"
+            android:background="@drawable/bg_button"
+            android:textColor="@color/button_color"
+            android:onClick="onDownloadClick"
+            android:minWidth="175dp"
+            android:maxWidth="250dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

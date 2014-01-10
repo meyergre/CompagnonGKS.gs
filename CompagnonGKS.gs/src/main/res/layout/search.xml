@@ -1,0 +1,138 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="#ddd">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_gravity="left|center_vertical"
+            android:background="@drawable/bg_button"
+            android:onClick="onCategory"
+            android:layout_margin="1dp">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="15dp"
+                android:layout_height="24dp"
+                android:id="@+id/progress_category"
+                android:indeterminate="true"
+                android:indeterminateOnly="true"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Toutes les catégories"
+                android:id="@+id/dropdown_category"
+                android:textColor="@color/button_color"
+                android:singleLine="true"
+                android:textSize="16dp"
+                android:layout_weight="1"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/imageView2"
+                android:src="@drawable/ic_dropdown"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:background="@drawable/bg_button"
+                android:id="@+id/dropdown_sortno"
+                android:layout_margin="1dp"
+                android:layout_weight="3"
+                android:onClick="onSort">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aucun tri"
+                    android:id="@+id/dropdown_sort"
+                    android:textColor="@color/button_color"
+                    android:singleLine="true"
+                    android:textSize="16dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/imageView3"
+                    android:src="@drawable/ic_dropdown"
+                    android:layout_gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:background="@drawable/bg_button"
+                android:id="@+id/linearLayout3"
+                android:layout_margin="1dp"
+                android:layout_weight="2"
+                android:onClick="onOrder">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Décroissant"
+                    android:id="@+id/dropdown_order"
+                    android:textColor="@color/button_color"
+                    android:singleLine="true"
+                    android:textSize="16dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/imageView4"
+                    android:src="@drawable/ic_dropdown"
+                    android:layout_gravity="center" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="Expression exacte"
+            android:id="@+id/chkExactExpr"
+            android:layout_gravity="right|center_vertical"
+            android:checked="false"
+            android:textColor="@color/button_color"
+            android:button="@drawable/bg_checkbox"
+            android:textSize="16dp" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="Rechercher dans les descriptions"
+            android:id="@+id/chkSearchDesc"
+            android:layout_gravity="right|center_vertical"
+            android:checked="false"
+            android:textColor="@color/button_color"
+            android:button="@drawable/bg_checkbox"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+</RelativeLayout>

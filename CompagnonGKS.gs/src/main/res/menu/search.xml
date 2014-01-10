@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fr.lepetitpingouin.android.gks="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_search"
+        android:title="Rechercher..."
+        android:icon="@drawable/ic_search_top"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        fr.lepetitpingouin.android.gks:showAsAction="always" />
+</menu>

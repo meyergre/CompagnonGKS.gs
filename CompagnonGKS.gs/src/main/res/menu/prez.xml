@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/prez_context_menu_download"
+        android:title="Télécharger" />
+    <item android:id="@+id/prez_context_menu_autoget"
+        android:title="Autoget it !" />
+    <item android:id="@+id/prez_context_menu_bookmark"
+        android:title="Bookmark it !" />
+    <item android:id="@+id/prez_context_menu_share"
+        android:title="Partager..." />
+</menu>
