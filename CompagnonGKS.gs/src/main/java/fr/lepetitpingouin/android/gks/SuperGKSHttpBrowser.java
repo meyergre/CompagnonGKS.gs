@@ -92,7 +92,7 @@ public class SuperGKSHttpBrowser {CookieStore cookieStore;
     }
 
     public String executeLoginForMessage() {
-        Log.d("SuperT411HttpBrowser", "loginForMessage");
+        Log.d("SuperGKSHttpBrowser", "loginForMessage");
         HttpContext clientcontext;
         clientcontext = new BasicHttpContext();
         clientcontext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
@@ -166,7 +166,7 @@ public class SuperGKSHttpBrowser {CookieStore cookieStore;
     }
 
     public String executeInAsyncTask() {
-        Log.d("SuperT411HttpBrowser", "executeAsync");
+        Log.d("SuperGKSHttpBrowser", "executeAsync");
         HttpContext clientcontext;
         clientcontext = new BasicHttpContext();
         clientcontext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);

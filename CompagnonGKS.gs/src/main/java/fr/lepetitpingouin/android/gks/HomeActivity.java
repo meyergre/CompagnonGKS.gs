@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
@@ -75,12 +76,12 @@ public class HomeActivity extends ActionBarActivity {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                ActivityCompat.invalidateOptionsMenu(HomeActivity.this); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                ActivityCompat.invalidateOptionsMenu(HomeActivity.this); // creates call to onPrepareOptionsMenu()
             }
         };
 
@@ -97,6 +98,7 @@ public class HomeActivity extends ActionBarActivity {
         if(prefs.getString("account_username", "").equals("")) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
+
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Default.Intent_endUpdate);

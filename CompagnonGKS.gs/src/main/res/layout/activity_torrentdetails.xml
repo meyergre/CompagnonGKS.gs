@@ -101,8 +101,7 @@
                 android:id="@+id/infolayout"
                 android:orientation="horizontal"
                 android:padding="3dp"
-            android:visibility="visible"
-            android:layout_weight="1">
+            android:visibility="visible">
 
             <TextView
                     android:layout_width="wrap_content"
@@ -117,18 +116,14 @@
                     android:singleLine="false"
                 android:textStyle="bold"/>
 
-            <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:id="@+id/frameLayout"/>
-
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/linearLayout2"
-                    android:layout_gravity="center">
+                android:layout_above="@+id/linearLayout3"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true">
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -136,11 +131,13 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="- Seeders"
                         android:id="@+id/tdt_seeders"
-                        android:layout_gravity="left|center_vertical"
+                        android:layout_gravity="center_vertical"
                         android:textColor="#009900"
                         android:textSize="12sp"
                         android:layout_weight="0"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" />
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -148,11 +145,13 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="- Leechers"
                         android:id="@+id/tdt_leechers"
-                        android:layout_gravity="left|center_vertical"
+                        android:layout_gravity="center_vertical"
                         android:textColor="#990000"
                         android:textSize="12sp"
                         android:layout_weight="0"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" />
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -160,11 +159,14 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="- Complets"
                         android:id="@+id/tdt_complets"
-                        android:layout_gravity="left|center_vertical"
-                        android:textColor="#88000000"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#88ffffff"
                         android:textSize="12sp"
                         android:layout_weight="0"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

@@ -41,6 +41,7 @@ public class torrentsActivity extends ActionBarActivity {
 
     String id;
     String catCode="";
+    String[] cat_select_id, cat_select_name;
 
     HashMap<String, String> itemMmap;
 
@@ -49,7 +50,7 @@ public class torrentsActivity extends ActionBarActivity {
     SharedPreferences prefs;
     Handler handler;
 
-    String order, type;
+    String order, type, exact, prez;
 
     torrentFetcher mF;
 
@@ -95,6 +96,9 @@ public class torrentsActivity extends ActionBarActivity {
         searchTerms = getIntent().getStringExtra("keywords");
         catCode = getIntent().getStringExtra("catCode");
 
+        exact = getIntent().getStringExtra("exact");
+        prez = getIntent().getStringExtra("prez");
+
         try {
             String subTitle = getIntent().getStringExtra("subtitle");
             getSupportActionBar().setSubtitle(subTitle);
@@ -114,6 +118,10 @@ public class torrentsActivity extends ActionBarActivity {
 
         dropdown_categories = (LinearLayout) findViewById(R.id.category_filter);
         dropdown_categories.setVisibility(getIntent().getStringExtra("catCode").equals("0") ? View.VISIBLE : View.GONE);
+
+        // Hide for now...
+        dropdown_categories.setVisibility(View.GONE);
+
         dropdown_categories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,6 +158,9 @@ public class torrentsActivity extends ActionBarActivity {
 
         PagesList = (ListView) pages_dialog.findViewById(R.id.dialoglistview);
         pageListItem = new ArrayList<HashMap<String, String>>();
+
+        TextView tv = (TextView) findViewById(R.id.navbar_pagesText);
+        tv.setText("1");
 
         PagesList.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -313,7 +324,7 @@ public class torrentsActivity extends ActionBarActivity {
 
         @Override
         protected void onPreExecute() {
-            dialog.setMessage("connecting");
+            dialog.setMessage("Chargement de la page...");
             super.onPreExecute();
         }
 
@@ -335,7 +346,11 @@ public class torrentsActivity extends ActionBarActivity {
 
                 url += "?q=" + searchTerms.replaceAll("\\s", "+");
 
-                url += "&order=" + order + "&category=" + catCode;// + "&page=" + paginator;
+                url += "&order=" + order + "&category=" + catCode + "&page=" + paginator;
+
+                //extras
+                url += exact;
+                url += prez;
 
                 Log.e("URL", url);
 
@@ -343,9 +358,6 @@ public class torrentsActivity extends ActionBarActivity {
                         .login(prefs.getString("account_username", ""), prefs.getString("account_password", ""))
                         .connect(url)
                         .executeInAsyncTask());
-
-                Log.e("HTML", doc.html());
-
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -374,17 +386,15 @@ public class torrentsActivity extends ActionBarActivity {
                 count = 0;
                 for (Element page : doc.select(".pager_align a:not(:has(img))")) {
                         map = new HashMap<String, String>();
-                        //map.put("icon", String.valueOf(R.drawable.file));
+                        map.put("icon", String.valueOf(R.drawable.ic_cat_gks));
                         map.put("name", page.text());
-                        map.put("code", page.attr("href").substring(page.attr("href").lastIndexOf("=") + 1));
+                        map.put("code", page.attr("href").replaceAll("^.*page=(.*)", "$1"));
                         pageListItem.add(map);
-                    publishProgress(++count + " pages found");
+                    publishProgress(++count + " pages trouvées");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            //publishProgress(getString(R.string.connecting));
 
             try {
                 Element elmtPrev = doc.select(".pager_align a:has(img[alt=Prev])").first();
@@ -538,12 +548,19 @@ public class torrentsActivity extends ActionBarActivity {
 
                 PagesList.setAdapter(mSchedule);
                 navbar.setVisibility(PagesList.getCount() > 0 ? View.VISIBLE : View.GONE);
+
+                prev = (ImageButton) findViewById(R.id.navbtn_prev);
+                prev.setVisibility(strPrev==null?View.INVISIBLE:View.VISIBLE);
+
+                next = (ImageButton) findViewById(R.id.navbtn_next);
+                next.setVisibility(strNext==null?View.INVISIBLE:View.VISIBLE);
+
             } catch(Exception e) {
                 e.printStackTrace();
             }
 
             try {
-                pageName = doc.select(".pager_align a:first-child").first().text();
+                pageName = doc.select(".pager_align strong").first().text();
                 TextView tv = (TextView) findViewById(R.id.navbar_pagesText);
                 tv.setText(pageName);
             } catch (Exception e) {
@@ -565,8 +582,8 @@ public class torrentsActivity extends ActionBarActivity {
                 }
 
                 Handler handler = new Handler();
-                if (maListViewPerso.getCount() < 1) {
-                    Toast.makeText(getApplicationContext(), "no result :(", Toast.LENGTH_LONG).show();
+                if (mTorrentsAdapter.getCount() < 1) {
+                    Toast.makeText(getApplicationContext(), "Aucun résultat :(", Toast.LENGTH_LONG).show();
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             finish();

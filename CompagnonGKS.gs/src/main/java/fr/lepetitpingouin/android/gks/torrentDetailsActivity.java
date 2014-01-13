@@ -23,14 +23,15 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.net.MalformedURLException;
+
 public class torrentDetailsActivity extends ActionBarActivity {
 
     SharedPreferences prefs;
 
     torrentDetailsGetter tG;
-    AsyncThx thx;
 
-    public String html_filelist = "";
+    Torrent torrent;
 
 
     ProgressDialog dialog;
@@ -58,6 +59,33 @@ public class torrentDetailsActivity extends ActionBarActivity {
             finish();
         }
         super.onResume();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.prez, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.prez_context_menu_download:
+                torrent.download();
+                return false;
+            case R.id.prez_context_menu_share:
+                torrent.share();
+                return false;
+            case R.id.prez_context_menu_autoget:
+                torrent.autoget();
+                return false;
+            case R.id.prez_context_menu_bookmark:
+                torrent.bookmark();
+                return false;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     /**
@@ -100,7 +128,16 @@ public class torrentDetailsActivity extends ActionBarActivity {
 
             //test
 
-            String htmlpage = new SuperGKSHttpBrowser(getApplicationContext()).connect(torrent_URL).execute();
+            Log.e("test", "start");
+            //String htmlpage = new SuperGKSHttpBrowser(getApplicationContext()).connect(torrent_URL).execute();
+            String htmlpage = null;
+            try {
+                htmlpage = new SuperGKSHttpBrowserNoApache(getApplicationContext()).connect(torrent_URL).execute();
+                Log.e("test", htmlpage);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            Log.e("test", "stop");
             String href = Jsoup.parse(htmlpage).select(".shortlink").attr("href").toString();
             String _id = href.substring(href.lastIndexOf("/")+1);
             String _title = Jsoup.parse(htmlpage).select("span:has(a.shortlink)").html().replaceAll("<a\\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "").toString();
@@ -117,6 +154,8 @@ public class torrentDetailsActivity extends ActionBarActivity {
         getSupportActionBar().setTitle("Détails du torrent");
         getSupportActionBar().setSubtitle(torrent_Name);
 
+        torrent = new Torrent(getApplicationContext(), torrent_Name, torrent_ID);
+
         tG = new torrentDetailsGetter();
         try {
             tG.execute();
@@ -125,37 +164,8 @@ public class torrentDetailsActivity extends ActionBarActivity {
     }
 
     public void onDownloadClick(View v) {
-        Torrent torrent = new Torrent(getApplicationContext(), torrent_Name, torrent_ID);
+        //Torrent torrent = new Torrent(getApplicationContext(), torrent_Name, torrent_ID);
         torrent.download();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.prez, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        Torrent torrent = new Torrent(getApplicationContext(), torrent_Name, torrent_ID);
-
-        switch(item.getItemId()) {
-            case R.id.prez_context_menu_download:
-                torrent.download();
-                return true;
-            case R.id.prez_context_menu_share:
-                torrent.share();
-                return true;
-            case R.id.prez_context_menu_autoget:
-                torrent.autoget();
-                return true;
-            case R.id.prez_context_menu_bookmark:
-                torrent.bookmark();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
     }
 
     private class AsyncThx extends AsyncTask<Void, String[], Void> {
@@ -181,7 +191,7 @@ public class torrentDetailsActivity extends ActionBarActivity {
                         .ignoreContentType(true).execute();
 
                 doc = res.parse();*/
-                doc = Jsoup.parse(new SuperGKSHttpBrowser(getApplicationContext())
+                doc = Jsoup.parse(new SuperGKSHttpBrowserNoApache(getApplicationContext())
                         .login(username, password)
                         .connect(torrent_ID)
                         .executeInAsyncTask());
@@ -237,11 +247,28 @@ public class torrentDetailsActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Void result) {
+            Log.e("testCode", doc.outerHtml());
 
             details_www.loadDataWithBaseURL(null, prez, mimeType, encoding, null);
 
             TextView tdtTaille = (TextView) findViewById(R.id.tdt_taille);
             tdtTaille.setText(new BSize(doc.select("p:has(.torr-taille)").first().text().replaceAll(".*:\\s(.*)\\s*","$1")).convert());
+
+
+            String tdt_seeders = doc.select(".upload").first().text();
+            String tdt_leechers = doc.select(".download").first().text();
+            String tdt_complets = doc.select(".completed").first().text();
+
+            TextView tdtSeeders, tdtLeechers, tdtComplets;
+
+            tdtSeeders = (TextView) findViewById(R.id.tdt_seeders);
+            tdtSeeders.setText(tdt_seeders + " Seeders");
+
+            tdtLeechers = (TextView) findViewById(R.id.tdt_leechers);
+            tdtLeechers.setText(tdt_leechers + " Leechers");
+
+            tdtComplets = (TextView) findViewById(R.id.tdt_complets);
+            tdtComplets.setText(tdt_complets + " Complets");
 
             /*
 

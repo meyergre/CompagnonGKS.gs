@@ -128,7 +128,7 @@ public class Torrent {
         mNotificationManager.cancel(id);
     }
 
-    private String AddOrDelGet(String action, String tid, String what) {
+    private String AddOrDelGet(String action, String tid, final String what) {
         // action : add | dell
         // tid : id
         // what : type
@@ -146,12 +146,14 @@ public class Torrent {
             final Integer returnCode = browser.getResponseCode();
             Log.e("retCode", returnCode+"");
 
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(context, "(" + returnCode + ")", Toast.LENGTH_LONG).show();
-                }
-            });
+            if(returnCode==302) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(context, "Ajouté à la liste " + what + "!", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -241,7 +243,7 @@ public class Torrent {
 
         @Override
         protected void onPreExecute() {
-            doNotify(R.drawable.ic_cat_gks, name, "Téléchargement...", Integer.valueOf(id), null);
+            doNotify(R.drawable.ic_notif_dl_start, name, "Téléchargement...", Integer.valueOf(id), null);
         }
 
         @Override
@@ -309,7 +311,7 @@ public class Torrent {
                     i.setData(Uri.fromFile(file));
 
                 PendingIntent pI = PendingIntent.getActivity(context, 0, i, Intent.FLAG_ACTIVITY_NEW_TASK | PendingIntent.FLAG_UPDATE_CURRENT);
-                doNotify(R.drawable.ic_cat_gks, name, "Téléchargement terminé !", Integer.valueOf(id), pI);
+                doNotify(R.drawable.ic_notif_dl_done, name, "Téléchargement terminé !", Integer.valueOf(id), pI);
                 if(prefs.getBoolean("openAfterDl", false)) {
                     //ouvrir le fichier
                     try {
@@ -317,7 +319,7 @@ public class Torrent {
                         if(prefs.getBoolean("openAfterDlCancelNotify", false))
                         cancelNotify(Integer.valueOf(id));
                     } catch(Exception e) {
-                        doNotify(R.drawable.ic_cat_gks, name, "Erreur d'ouverture du torrent\nAucune application trouvée.", Integer.valueOf(id), null);
+                        doNotify(R.drawable.ic_notif_dl_failed, name, "Erreur d'ouverture du torrent\nAucune application trouvée.", Integer.valueOf(id), null);
                     }
                 }
 
@@ -325,19 +327,19 @@ public class Torrent {
                 Intent i = new Intent();
                 i.setClass(context, UserSettingsActivity.class);
                 PendingIntent pI = PendingIntent.getActivity(context, 0, i, Intent.FLAG_ACTIVITY_NEW_TASK | PendingIntent.FLAG_UPDATE_CURRENT);
-                doNotify(R.drawable.ic_cat_gks, name, "Le téléchargement a échoué...\nAccès au répertoire choisi impossible.", Integer.valueOf(id), pI);
+                doNotify(R.drawable.ic_notif_dl_failed, name, "Le téléchargement a échoué...\nAccès au répertoire choisi impossible.", Integer.valueOf(id), pI);
                 e.printStackTrace();
             } catch (Exception e) {
                 Intent i = new Intent();
                 i.setClass(context, UserSettingsActivity.class);
                 PendingIntent pI = PendingIntent.getActivity(context, 0, i, Intent.FLAG_ACTIVITY_NEW_TASK | PendingIntent.FLAG_UPDATE_CURRENT);
                 if (file.exists() && file.length() == 0) {
-                    doNotify(R.drawable.ic_cat_gks, name, "Le téléchargement a échoué...\nErreur réseau : impossible de télécharger le contenu du fichier. Veuillez réessayer.", Integer.valueOf(id), pI);
+                    doNotify(R.drawable.ic_notif_dl_failed, name, "Le téléchargement a échoué...\nErreur réseau : impossible de télécharger le contenu du fichier. Veuillez réessayer.", Integer.valueOf(id), pI);
                     e.printStackTrace();
                 } else if (!file.exists()) {
-                    doNotify(R.drawable.ic_cat_gks, name, "Le téléchargement a échoué...\nImpossible de créer le fichier.", Integer.valueOf(id), pI);
+                    doNotify(R.drawable.ic_notif_dl_failed, name, "Le téléchargement a échoué...\nImpossible de créer le fichier.", Integer.valueOf(id), pI);
                 } else {
-                    doNotify(R.drawable.ic_cat_gks, name, "Le téléchargement a échoué...\nErreur inconnue.", Integer.valueOf(id), pI);
+                    doNotify(R.drawable.ic_notif_dl_failed, name, "Le téléchargement a échoué...\nErreur inconnue.", Integer.valueOf(id), pI);
                 }
             }
         }

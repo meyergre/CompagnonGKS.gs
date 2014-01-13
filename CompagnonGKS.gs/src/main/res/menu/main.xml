@@ -11,8 +11,8 @@
         android:title="Mise à jour..."
         android:icon="@drawable/ic_refresh"
         android:orderInCategory="100"
-        android:showAsAction="ifRoom"
-        fr.lepetitpingouin.android.gks:showAsAction="ifRoom" />
+        android:showAsAction="always"
+        fr.lepetitpingouin.android.gks:showAsAction="always" />
 
     <item android:id="@+id/action_search"
         android:title="Rechercher..."

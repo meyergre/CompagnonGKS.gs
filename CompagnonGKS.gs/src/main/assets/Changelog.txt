@@ -1,11 +1,9 @@
 version 0.1 BETA
 - Première version
 - Mise en place des éléments principaux
-- Fonctions de base (mise à jour, notification)
-
-- Recherche de torrents (partielle)
+- Fonctions de base (mise à jour, notification, recherche)
 - Téléchargement de torrents (a la racine de la mémoire interne)
-- Affichage de la prez (partiel)
+- Affichage de la prez
 - Partage du lien vers un torrent
 - Ajout à l'autoGet
 - Ajout aux bookmarks

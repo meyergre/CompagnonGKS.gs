@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -34,6 +35,7 @@ public class SearchActivity extends ActionBarActivity {
     SharedPreferences prefs;
     String catCode="0", sort="", order="";
     EditText input_search;
+    String exact="", prez="";
 
     HashMap<String, String> mapCat, mapSort, mapOrder;
     SimpleAdapter adapterCat, adapterSort, adapterOrder;
@@ -120,13 +122,13 @@ public class SearchActivity extends ActionBarActivity {
 
         mapOrder = new HashMap<String, String>();
         mapOrder.put("nom", "Croissant");
-        mapOrder.put("code", "ASC");
+        mapOrder.put("code", "asc");
         mapOrder.put("icon", String.valueOf(R.drawable.ic_filter_asc));
         arrayListOrder.add(mapOrder);
 
         mapOrder = new HashMap<String, String>();
         mapOrder.put("nom", "Décroissant");
-        mapOrder.put("code", "DESC");
+        mapOrder.put("code", "desc");
         mapOrder.put("icon", String.valueOf(R.drawable.ic_filter_desc));
         arrayListOrder.add(mapOrder);
 
@@ -170,6 +172,8 @@ public class SearchActivity extends ActionBarActivity {
         intent.putExtra("order", order);
         intent.putExtra("catCode", catCode);
         intent.putExtra("sort", sort);
+        intent.putExtra("exact", ((CheckBox)findViewById(R.id.chkExactExpr)).isChecked()?"&exact=1":"");
+        intent.putExtra("prez", ((CheckBox)findViewById(R.id.chkSearchDesc)).isChecked()?"&prez=":"");
         intent.putExtra("subtitle", ((TextView)findViewById(R.id.dropdown_sort)).getText().toString().toLowerCase() + ", " + ((TextView)findViewById(R.id.dropdown_order)).getText().toString().toLowerCase());
         startActivity(intent);
     }
