@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="torrentsActivity"
+    android:background="#ddd">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Maintenir appuyé pour voir les options..."
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0"
+        android:gravity="center"
+        android:textColor="#eeffffff"
+        android:background="#660066EE"
+        android:textSize="11dp"
+        android:padding="2dp" />
+
+    <GridView
+        android:id="@+id/bmGridView"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:cacheColorHint="#00000000"
+        android:divider="#00000000"
+        android:focusable="false"
+        android:longClickable="true"
+        android:clipToPadding="false"
+        android:smoothScrollbar="true"
+        android:fastScrollEnabled="true"
+        android:columnWidth="390dp"
+        android:numColumns="auto_fit" />
+
+</LinearLayout>

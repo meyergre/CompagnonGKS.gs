@@ -15,11 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -38,9 +36,7 @@ public class torrentDetailsActivity extends ActionBarActivity {
 
     WebView details_www;
 
-    ImageView btnShare, btnDownload, btnThx, btnDlLater, rmDlLater, btnList;
-
-    String torrent_URL, torrent_NFO, torrent_ID, torrent_Name;
+    String torrent_URL, torrent_ID, torrent_Name;
 
     @Override
     public void onDestroy() {
@@ -70,7 +66,7 @@ public class torrentDetailsActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.prez_context_menu_download:
                 torrent.download();
                 return false;
@@ -105,9 +101,7 @@ public class torrentDetailsActivity extends ActionBarActivity {
 
         details_www.getSettings().setJavaScriptEnabled(false);
 
-        dialog = ProgressDialog.show(this,
-                "GKS.gs",
-                "Patientez", true, true);
+        dialog = ProgressDialog.show(this, "GKS.gs", "Patientez", true, true);
         dialog.setOnCancelListener(new ProgressDialog.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
@@ -126,29 +120,20 @@ public class torrentDetailsActivity extends ActionBarActivity {
         if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {
             torrent_URL = getIntent().getData().toString();
 
-            //test
 
-            Log.e("test", "start");
-            //String htmlpage = new SuperGKSHttpBrowser(getApplicationContext()).connect(torrent_URL).execute();
             String htmlpage = null;
             try {
                 htmlpage = new SuperGKSHttpBrowserNoApache(getApplicationContext()).connect(torrent_URL).execute();
-                Log.e("test", htmlpage);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            Log.e("test", "stop");
+
             String href = Jsoup.parse(htmlpage).select(".shortlink").attr("href").toString();
-            String _id = href.substring(href.lastIndexOf("/")+1);
+            String _id = href.substring(href.lastIndexOf("/") + 1);
             String _title = Jsoup.parse(htmlpage).select("span:has(a.shortlink)").html().replaceAll("<a\\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "").toString();
 
-            //test
-
-            //torrent_ID = torrent_URL.split("=")[1];
             torrent_ID = _id;
-                    //torrent_Name = torrent_ID;
             torrent_Name = _title;
-            //Toast.makeText(getApplicationContext(),torrent_URL, Toast.LENGTH_SHORT).show();
         }
 
         getSupportActionBar().setTitle("Détails du torrent");
@@ -164,7 +149,6 @@ public class torrentDetailsActivity extends ActionBarActivity {
     }
 
     public void onDownloadClick(View v) {
-        //Torrent torrent = new Torrent(getApplicationContext(), torrent_Name, torrent_ID);
         torrent.download();
     }
 
@@ -174,23 +158,11 @@ public class torrentDetailsActivity extends ActionBarActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            String username = prefs.getString("login", ""), password = prefs
-                    .getString("password", "");
+            String username = prefs.getString("login", ""), password = prefs.getString("password", "");
 
-            Connection.Response res = null;
-            Document doc = null;
+            Document doc;
 
             try {
-                /*res = Jsoup
-                        .connect(Default.URL_SAY_THANKS + torrent_ID)
-                        .data("login", username, "password", password)
-                        .method(Method.POST)
-                        .userAgent(prefs.getString("User-Agent", Default.USER_AGENT))
-                        .timeout(Integer.valueOf(prefs.getString("timeoutValue", Default.timeout)) * 1000)
-.maxBodySize(0).followRedirects(true).ignoreContentType(true).ignoreHttpErrors(true)
-                        .ignoreContentType(true).execute();
-
-                doc = res.parse();*/
                 doc = Jsoup.parse(new SuperGKSHttpBrowserNoApache(getApplicationContext())
                         .login(username, password)
                         .connect(torrent_ID)
@@ -233,7 +205,7 @@ public class torrentDetailsActivity extends ActionBarActivity {
                         .connect(torrent_URL)
                         .executeInAsyncTask());
 
-                Log.e("url torrent",torrent_URL);
+                Log.e("url torrent", torrent_URL);
                 prez += css;
                 prez += doc.select("#prez").first().html().replaceAll("(on[click|load])", "-$1");
                 Log.e("prez torrent", prez);
@@ -252,7 +224,7 @@ public class torrentDetailsActivity extends ActionBarActivity {
             details_www.loadDataWithBaseURL(null, prez, mimeType, encoding, null);
 
             TextView tdtTaille = (TextView) findViewById(R.id.tdt_taille);
-            tdtTaille.setText(new BSize(doc.select("p:has(.torr-taille)").first().text().replaceAll(".*:\\s(.*)\\s*","$1")).convert());
+            tdtTaille.setText(new BSize(doc.select("p:has(.torr-taille)").first().text().replaceAll(".*:\\s(.*)\\s*", "$1")).convert());
 
 
             String tdt_seeders = doc.select(".upload").first().text();
@@ -269,46 +241,6 @@ public class torrentDetailsActivity extends ActionBarActivity {
 
             tdtComplets = (TextView) findViewById(R.id.tdt_complets);
             tdtComplets.setText(tdt_complets + " Complets");
-
-            /*
-
-            try {
-
-                getSupportActionBar().setSubtitle(tduploader.toString());
-
-                tdt_seeders = doc.select(".details table tr td.up").first().text();
-                tdt_leechers = doc.select(".details table tr td.down").first().text();
-                tdt_note = doc.select("div.accordion div table tr").get(8).select("td").first().text().split(" ", 2)[0];
-                note = Double.valueOf(tdt_note.split("/")[0].replace(",", "."));
-                tdt_votes = doc.select("div.accordion div table tr").get(8).select("td").first().text().split(" ", 2)[1];
-                tdt_complets = doc.select(".details table tr td.down").first().parent().select("td").last().text();
-                tdt_taille = doc.select("div.accordion table tr").get(3).select("td").first().text();
-
-                TextView tdtSeeders, tdtLeechers, tdtNote, tdtVotes, tdtComplets, tdtTaille;
-
-                tdtSeeders = (TextView) findViewById(R.id.tdt_seeders);
-                tdtSeeders.setText(tdt_seeders + " Seeders");
-
-                tdtLeechers = (TextView) findViewById(R.id.tdt_leechers);
-                tdtLeechers.setText(tdt_leechers + " Leechers");
-
-                //tdtNote = (TextView) findViewById(R.id.tdt_note);
-                //tdtNote.setText(tdt_note);
-
-                //tdtVotes = (TextView) findViewById(R.id.tdt_votes);
-                //tdtVotes.setText(tdt_votes);
-
-                tdtComplets = (TextView) findViewById(R.id.tdt_complets);
-                tdtComplets.setText(tdt_complets + " Complets");
-
-                tdtTaille = (TextView) findViewById(R.id.tdt_taille);
-                tdtTaille.setText(tdt_taille);
-
-            } catch (Exception e) {
-                //details_www.loadDataWithBaseURL("fake://seeJavaDocForExplanation/", "<meta name=\"viewport\" content=\"width=320; user-scalable=no\" />" + doc.select(".block").first().text(), mimeType, encoding, "");
-                details_www.loadDataWithBaseURL("fake://seeJavaDocForExplanation/", "<meta name=\"viewport\" content=\"width=320; user-scalable=no\" />" + e.getMessage(), mimeType, encoding, "");
-            }
-            */
 
             dialog.dismiss();
         }

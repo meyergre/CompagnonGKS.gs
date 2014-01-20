@@ -7,7 +7,7 @@ public class Default {
 
     //https://www.mediafire.com/folder/5px8qmlygc8n2/gks-android
 
-    public static final String USER_AGENT = "Android (Compagnon GKS)";
+    public static final String USER_AGENT = "Compagnon GKS (Android)/1.0";
     public static String URL_MYAPPS = "https://play.google.com/store/search?q=pub:Gr%C3%A9gory+Meyer";
 
     public static String URL_LOGIN = "https://gks.gs/login";
@@ -20,4 +20,7 @@ public class Default {
     public static String Intent_endUpdate = "fr.lepetitpingouin.android.gks.INTENT.UPDATE.STOP";
     public static String timeout = "10";
     public static String URL_INDEX = "https://gks.gs";
+    public static String URL_BOOKMARKS = "https://gks.gs/bookmark/";
+    public static String URL_AUTOGET = "https://gks.gs/autoget/";
+
 }

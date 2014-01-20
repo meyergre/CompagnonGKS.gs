@@ -13,31 +13,39 @@ public class TorrentCategorie {
         String codeList;
 
         codeList = "|3|";
-        if(codeList.contains("|"+catCode+"|"))
-            return R.drawable.ic_cat_windows;
+        if (codeList.contains("|" + catCode + "|"))
+            return R.drawable.ic_cat_win;
 
         codeList = "|4|";
-        if(codeList.contains("|"+catCode+"|"))
+        if (codeList.contains("|" + catCode + "|"))
             return R.drawable.ic_cat_apple;
 
         codeList = "|5|6|19|";
-        if(codeList.contains("|"+catCode+"|"))
+        if (codeList.contains("|" + catCode + "|"))
             return R.drawable.ic_cat_dvd;
 
+        codeList = "|39|";
+        if (codeList.contains("|" + catCode + "|"))
+            return R.drawable.ic_cat_flac;
+
+        codeList = "|10|";
+        if (codeList.contains("|" + catCode + "|"))
+            return R.drawable.ic_cat_packtv;
+
         codeList = "|7|8|10|11|12|20|21|22|23|";
-        if(codeList.contains("|"+catCode+"|"))
+        if (codeList.contains("|" + catCode + "|"))
             return R.drawable.ic_cat_tv;
 
         codeList = "|9|13|14|15|16|";
-        if(codeList.contains("|"+catCode+"|"))
-            return R.drawable.ic_cat_tvhd;
+        if (codeList.contains("|" + catCode + "|"))
+            return R.drawable.ic_cat_tvhd_fr;
 
         codeList = "|17|";
-        if(codeList.contains("|"+catCode+"|"))
+        if (codeList.contains("|" + catCode + "|"))
             return R.drawable.ic_cat_bluray;
 
         codeList = "|29|30|31|32|34|38|";
-        if(codeList.contains("|"+catCode+"|"))
+        if (codeList.contains("|" + catCode + "|"))
             return R.drawable.ic_cat_console;
 
         return R.drawable.ic_cat_gks;

@@ -32,7 +32,7 @@ public class BSize {
     }
 
     public String convert(String unit) {
-        return unit.contains("ko") ? String.format("%.2f", getInko()) + " Ko" : unit.contains("Mo") ? String.format("%.2f", getInMo()) + " Mo" : unit.contains("Go") ? String.format("%.2f", getInGo()) + " Go" : unit.contains("To" +
+        return unit.contains("ko") ? String.format("%.2f", getInko()) + " ko" : unit.contains("Mo") ? String.format("%.2f", getInMo()) + " Mo" : unit.contains("Go") ? String.format("%.2f", getInGo()) + " Go" : unit.contains("To" +
                 "") ? String.format("%.2f", getInTo()) + " To" : String.format("%.2f", getInoctets()) + " o";
     }
 

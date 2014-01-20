@@ -117,7 +117,7 @@ public class gksUpdater extends Service {
 
         Document doc;
         Connection.Response res;
-        String ratio="0", karma="0", upload="0.00 MB", download="0.00 MB", username="", classe="", avatar = "", chart="", messages="", aura="", twit="", hitrun="", freeleech_type="";
+        String ratio = "0", karma = "0", upload = "0.00 MB", download = "0.00 MB", username = "", classe = "", avatar = "", chart = "", messages = "", aura = "", twit = "", hitrun = "", freeleech_type = "", authkey = "";
         Long freeleech = 0L;
 
         @Override
@@ -146,6 +146,8 @@ public class gksUpdater extends Service {
 
                 doc = res.parse();
 
+                Log.e("html", doc.html());
+
 
                 //doc = Jsoup.parse(new SuperGKSHttpBrowser(getApplicationContext()).login(prefs.getString("account_username", ""), prefs.getString("account_password", "")).connect(Default.URL_PROFILE).executeInAsyncTask());
 
@@ -163,6 +165,7 @@ public class gksUpdater extends Service {
                 aura    = doc.select("#userlink li").get(3).text().split(" \\| +")[0].split(" ")[1];
                 twit    = doc.select("#userlink li").get(3).text().split(" \\| +")[1].split(" ")[0];
                 hitrun  = doc.select("#userlink li").get(3).text().split(" \\| +")[2].split(" ")[0];
+                authkey = doc.select("#userlink li a").last().attr("href").replaceAll("^/.*/(.*)", "$1");
 
                 try {
                     freeleech = Long.valueOf(doc.select(".fl-activated #countdown_fl").attr("data-time"));
@@ -176,18 +179,8 @@ public class gksUpdater extends Service {
                 try {
                 //graphique
                 String graphScript_url = doc.select("#contenu script").first().attr("src");
-                    Log.e("chart url", graphScript_url);
-
-
-                /*chart = Jsoup.connect(graphScript_url)
-                        .cookies(cookies)
-                        .ignoreContentType(true)
-                        .execute().body();
-                        */
 
                 chart = new SuperGKSHttpBrowser(getApplicationContext()).login(prefs.getString("account_username", ""), prefs.getString("account_password", "")).connect(graphScript_url).executeInAsyncTask();
-
-                    Log.e("chart code", chart);
 
                 } catch(Exception e) {
                     e.printStackTrace();
@@ -196,7 +189,6 @@ public class gksUpdater extends Service {
                 try {
                 //avatar
                 String avatar_url = doc.select("#avatar img").first().attr("src");
-                Log.e("avatar", avatar_url);
                 avatar = Base64.encodeToString(Jsoup.connect(avatar_url)
                         .cookies(cookies)
                         .ignoreContentType(true)
@@ -207,7 +199,6 @@ public class gksUpdater extends Service {
             } catch (Exception e) {
                 e.printStackTrace();
                 sendBroadcast(endUpdateIntent);
-                Log.d(prefs.getString("account_username", "?"), prefs.getString("account_password", "?"));
             }
             return null;
         }
@@ -218,15 +209,16 @@ public class gksUpdater extends Service {
             try {
 
                 edit.putString("username", username);
-                edit.putString("upload", upload);
-                edit.putString("download", download);
-                edit.putString("ratio", ratio);
-                edit.putString("karma", karma.replace(",",""));
+                edit.putString("upload", new BSize(upload).convert());
+                edit.putString("download", new BSize(download).convert());
+                edit.putString("ratio", String.format("%.2f", Double.valueOf(ratio)));
+                edit.putString("karma", karma.replaceAll("(,.*)", "k"));
                 edit.putString("classe", classe);
                 edit.putString("hitrun", hitrun);
                 edit.putString("twit", twit);
                 edit.putString("aura", aura.replace(",",""));
                 edit.putString("mails", messages);
+                edit.putString("authkey", authkey);
 
                 Time today = new Time(Time.getCurrentTimezone());
                 today.setToNow();

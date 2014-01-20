@@ -15,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,11 +50,12 @@ public class HomeActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(prefs.getString("account_username", "").equals("")) {
+        if (prefs.getString("account_username", "").equals("")) {
             finish();
         }
         super.onResume();
     }
+
     @Override
     protected void onDestroy() {
         this.unregisterReceiver(this.mReceiver);
@@ -91,11 +91,11 @@ public class HomeActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        updateBar = (ProgressBar)findViewById(R.id.updateProgressBar);
+        updateBar = (ProgressBar) findViewById(R.id.updateProgressBar);
         updateBar.setVisibility(View.INVISIBLE);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(prefs.getString("account_username", "").equals("")) {
+        if (prefs.getString("account_username", "").equals("")) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
@@ -106,13 +106,12 @@ public class HomeActivity extends ActionBarActivity {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if(intent.getAction().equals(Default.Intent_startUpdate)) {
+                if (intent.getAction().equals(Default.Intent_startUpdate)) {
                     //refreshBtn.startAnimation(animation);
                     setSupportProgressBarIndeterminateVisibility(true);
                     getSupportActionBar().setSubtitle("Mise \u00e0 jour...");
                     updateBar.setVisibility(View.VISIBLE);
-                }
-                else if(intent.getAction().equals(Default.Intent_endUpdate)) {
+                } else if (intent.getAction().equals(Default.Intent_endUpdate)) {
                     //refreshBtn.clearAnimation();
                     setSupportProgressBarIndeterminateVisibility(false);
                     updateBar.setVisibility(View.INVISIBLE);
@@ -127,18 +126,18 @@ public class HomeActivity extends ActionBarActivity {
 
         //animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
 
-        tx_ratio = (TextView)findViewById(R.id.tx_ratio);
-        tx_download = (TextView)findViewById(R.id.tx_download);
-        tx_upload = (TextView)findViewById(R.id.tx_upload);
-        tx_karma = (TextView)findViewById(R.id.tx_karma);
-        tx_username = (TextView)findViewById(R.id.tx_username);
-        tx_classe = (TextView)findViewById(R.id.tx_classe);
-        iv_Avatar = (ImageView)findViewById(R.id.ivAvatar);
-        tx_mails = (TextView)findViewById(R.id.tx_mails);
-        tx_aura = (TextView)findViewById(R.id.tx_aura);
-        tx_twit = (TextView)findViewById(R.id.tx_twit);
-        tx_hitrun = (TextView)findViewById(R.id.tx_hitrun);
-        www = (WebView)findViewById(R.id.www);
+        tx_ratio = (TextView) findViewById(R.id.tx_ratio);
+        tx_download = (TextView) findViewById(R.id.tx_download);
+        tx_upload = (TextView) findViewById(R.id.tx_upload);
+        tx_karma = (TextView) findViewById(R.id.tx_karma);
+        tx_username = (TextView) findViewById(R.id.tx_username);
+        tx_classe = (TextView) findViewById(R.id.tx_classe);
+        iv_Avatar = (ImageView) findViewById(R.id.ivAvatar);
+        tx_mails = (TextView) findViewById(R.id.tx_mails);
+        tx_aura = (TextView) findViewById(R.id.tx_aura);
+        tx_twit = (TextView) findViewById(R.id.tx_twit);
+        tx_hitrun = (TextView) findViewById(R.id.tx_hitrun);
+        www = (WebView) findViewById(R.id.www);
         www.getSettings().setJavaScriptEnabled(true);
         www.setWebViewClient(new WebViewClient());
         www.setWebChromeClient(new WebChromeClient());
@@ -173,8 +172,8 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     public void updateValues() {
-        tx_ratio.setText(String.format("%.2f", Double.valueOf(prefs.getString("ratio", "0"))));
-        tx_karma.setText(String.format("%.2f", Double.valueOf(prefs.getString("karma", "0"))));
+        tx_ratio.setText(prefs.getString("ratio", "??"));
+        tx_karma.setText(prefs.getString("karma", "0"));
         tx_upload.setText(prefs.getString("upload", ""));
         tx_download.setText(prefs.getString("download", ""));
         tx_classe.setText(prefs.getString("classe", ""));
@@ -193,13 +192,10 @@ public class HomeActivity extends ActionBarActivity {
 
         //www.loadUrl("about:blank");
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Log.e("code", prefs.getString("chart", "erreur"));
         code = "<body><script src=\"file:///android_asset/amstock.js\" type=\"text/javascript\"></script><script>" + prefs.getString("chart", "") + "</script><div id=\"chartratio\" style=\"width: 100%; height: 100%;\"></div></body>";
         code = code.replace("Upload (Go)", "Upload").replace("Download (Go)", "Download").replace("Aura par jour", "Aura/jour").replace("chart.startDuration = 1;", "chart.startDuration = 0;");
         www.loadDataWithBaseURL(null, code, "text/html", "utf-8", null);
         www.setBackgroundColor(0x00000000);
-
-
 
 
         String encodedImage = prefs.getString("avatar", "");
@@ -216,6 +212,19 @@ public class HomeActivity extends ActionBarActivity {
 
     public void dummyFunction(View v) {
         Toast.makeText(getApplicationContext(), "Ce bouton ne sert à rien.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onMessages(View v) {
+        Toast.makeText(getApplicationContext(), "Ce bouton ne sert à rien.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onBookmarks(View v) {
+        //Toast.makeText(getApplicationContext(), "Ce bouton ne sert à rien.", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getApplicationContext(), BookmarksActivity.class).putExtra("display", "bookmarks"));
+    }
+
+    public void onAutoGet(View v) {
+        //Toast.makeText(getApplicationContext(), "Ce bouton ne sert à rien.", Toast.LENGTH_SHORT).show();
     }
 
     public void onPreferencesClick(View v) {

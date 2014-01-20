@@ -9,9 +9,9 @@
             android:summary="Nom d'utilisateur GKS"/>
         <EditTextPreference
             android:key="account_password"
-            android:title="Mot de passe"
+            android:title="Mot de passe GKS"
             android:password="true"
-            android:summary="Mot de passe GKS"/>
+            android:summary="********" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="Mise à jour"
@@ -31,7 +31,7 @@
             android:defaultValue="90"/>
         <CheckBoxPreference
             android:key="pref_rtc_wakeup"
-            android:title="Réveiller l'appareil"
+            android:title="Mettre à jour en veille"
             android:summaryOn="Sortir de veille pour mettre à jour (consomme + de batterie)"
             android:summaryOff="Mises à jour moins fréquentes (économise la batterie)"
             android:dependency="pref_auto_update"

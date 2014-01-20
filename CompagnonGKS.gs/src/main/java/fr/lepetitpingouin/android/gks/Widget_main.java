@@ -85,7 +85,7 @@ public class Widget_main extends AppWidgetProvider {
             PendingIntent sPi = PendingIntent.getActivity(context, 0, searchIntent, 0);
             views.setOnClickPendingIntent(R.id.widget_btn_search, sPi);
 
-            Intent mobileIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://gks.gs"));
+            Intent mobileIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://gks.gs/mob/?k=" + prefs.getString("authkey", "")));
             PendingIntent mPi = PendingIntent.getActivity(context, 0, mobileIntent, 0);
             views.setOnClickPendingIntent(R.id.widget_btn_mobile, mPi);
 

@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -33,9 +35,9 @@ import java.util.Map;
 public class SearchActivity extends ActionBarActivity {
 
     SharedPreferences prefs;
-    String catCode="0", sort="", order="";
+    String catCode = "0", sort = "", order = "";
     EditText input_search;
-    String exact="", prez="";
+    String exact = "", prez = "";
 
     HashMap<String, String> mapCat, mapSort, mapOrder;
     SimpleAdapter adapterCat, adapterSort, adapterOrder;
@@ -57,13 +59,23 @@ public class SearchActivity extends ActionBarActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setCustomView(R.layout.action_search);
 
-        input_search = (EditText)actionBar.getCustomView().findViewById(R.id.editText_search);
+        input_search = (EditText) actionBar.getCustomView().findViewById(R.id.editText_search);
+        input_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    onSearch(null);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         dialogCat = new Dialog(this);
         dialogCat.setContentView(R.layout.listview);
         dialogCat.setTitle("Rechercher dans...");
 
-        listViewCat = (ListView)dialogCat.findViewById(R.id.listview);
+        listViewCat = (ListView) dialogCat.findViewById(R.id.listview);
         arrayListCat = new ArrayList<HashMap<String, String>>();
 
         listViewCat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,7 +96,7 @@ public class SearchActivity extends ActionBarActivity {
         dialogSort.setContentView(R.layout.listview);
         dialogSort.setTitle("Classer par...");
 
-        listViewSort = (ListView)dialogSort.findViewById(R.id.listview);
+        listViewSort = (ListView) dialogSort.findViewById(R.id.listview);
         arrayListSort = new ArrayList<HashMap<String, String>>();
 
         listViewSort.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,7 +116,7 @@ public class SearchActivity extends ActionBarActivity {
         dialogOrder.setContentView(R.layout.listview);
         dialogOrder.setTitle("Classer par...");
 
-        listViewOrder = (ListView)dialogOrder.findViewById(R.id.listview);
+        listViewOrder = (ListView) dialogOrder.findViewById(R.id.listview);
         arrayListOrder = new ArrayList<HashMap<String, String>>();
 
         listViewOrder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -172,9 +184,9 @@ public class SearchActivity extends ActionBarActivity {
         intent.putExtra("order", order);
         intent.putExtra("catCode", catCode);
         intent.putExtra("sort", sort);
-        intent.putExtra("exact", ((CheckBox)findViewById(R.id.chkExactExpr)).isChecked()?"&exact=1":"");
-        intent.putExtra("prez", ((CheckBox)findViewById(R.id.chkSearchDesc)).isChecked()?"&prez=":"");
-        intent.putExtra("subtitle", ((TextView)findViewById(R.id.dropdown_sort)).getText().toString().toLowerCase() + ", " + ((TextView)findViewById(R.id.dropdown_order)).getText().toString().toLowerCase());
+        intent.putExtra("exact", ((CheckBox) findViewById(R.id.chkExactExpr)).isChecked() ? "&exact=1" : "");
+        intent.putExtra("prez", ((CheckBox) findViewById(R.id.chkSearchDesc)).isChecked() ? "&prez=" : "");
+        intent.putExtra("subtitle", ((TextView) findViewById(R.id.dropdown_sort)).getText().toString().toLowerCase() + ", " + ((TextView) findViewById(R.id.dropdown_order)).getText().toString().toLowerCase());
         startActivity(intent);
     }
 
@@ -208,7 +220,7 @@ public class SearchActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             //animer les categories
-            progress = (ProgressBar)findViewById(R.id.progress_category);
+            progress = (ProgressBar) findViewById(R.id.progress_category);
             progress.setVisibility(View.VISIBLE);
             progress.setIndeterminate(true);
         }
@@ -219,7 +231,7 @@ public class SearchActivity extends ActionBarActivity {
             try {
                 Map<String, String> cookies = Jsoup.connect(Default.URL_LOGIN)
                         .data("username", prefs.getString("account_username", ""), "password", prefs.getString("account_password", ""))
-                        .header("Content-Type","application/x-www-form-urlencoded;charset=UTF-8")
+                        .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                         .followRedirects(true)
                         .referrer(Default.URL_LOGIN)
                         .userAgent("Mozilla")
@@ -246,7 +258,7 @@ public class SearchActivity extends ActionBarActivity {
         protected void onPostExecute(String value) {
 
             try {
-                for(Element category : categories) {
+                for (Element category : categories) {
                     mapCat = new HashMap<String, String>();
                     mapCat.put("nom", category.text());
                     mapCat.put("code", category.attr("value"));
@@ -271,7 +283,7 @@ public class SearchActivity extends ActionBarActivity {
                 mapSort.put("icon", String.valueOf(R.drawable.ic_filter_filter));
                 arrayListSort.add(mapSort);
 
-                for(Element sort : sorts) {
+                for (Element sort : sorts) {
                     mapSort = new HashMap<String, String>();
                     mapSort.put("nom", sort.text());
                     mapSort.put("code", sort.attr("value"));
@@ -288,12 +300,10 @@ public class SearchActivity extends ActionBarActivity {
                 );
 
                 listViewSort.setAdapter(adapterSort);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Toast.makeText(getApplicationContext(), "Impossible de contacter le serveur.", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 progress.setVisibility(View.INVISIBLE);
             }
         }

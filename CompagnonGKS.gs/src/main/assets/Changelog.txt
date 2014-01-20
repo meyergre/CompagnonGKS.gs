@@ -1,3 +1,9 @@
+version 0.2 BETA
+- Touche "Recherche" sur le clavier dans la page de recherche
+- Support des bookmarks
+- Téléchargement de l'authkey
+- Ouverture du site mobile depuis le widget
+
 version 0.1 BETA
 - Première version
 - Mise en place des éléments principaux

@@ -28,7 +28,6 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
-import org.jsoup.Jsoup;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,7 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class SuperGKSHttpBrowser {CookieStore cookieStore;
+public class SuperGKSHttpBrowser {
+    CookieStore cookieStore;
 
     SharedPreferences prefs;
 
@@ -101,8 +101,8 @@ public class SuperGKSHttpBrowser {CookieStore cookieStore;
 
         httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 
-        HttpConnectionParams.setConnectionTimeout(httpclient.getParams(), Integer.valueOf(prefs.getString("timeout", Default.timeout))*1000);
-        HttpConnectionParams.setSoTimeout(httpclient.getParams(), Integer.valueOf(prefs.getString("timeout", Default.timeout))*1000);
+        HttpConnectionParams.setConnectionTimeout(httpclient.getParams(), Integer.valueOf(prefs.getString("timeout", Default.timeout)) * 1000);
+        HttpConnectionParams.setSoTimeout(httpclient.getParams(), Integer.valueOf(prefs.getString("timeout", Default.timeout)) * 1000);
 
         HttpPost httppost = new HttpPost(Default.URL_LOGIN);
 
@@ -122,9 +122,9 @@ public class SuperGKSHttpBrowser {CookieStore cookieStore;
 
             response = httpclient.execute(httppost, clientcontext);
             StatusLine statusLine = response.getStatusLine();
-            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+            if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
                 responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
-            } else{
+            } else {
                 //Closes the connection.
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
@@ -133,7 +133,7 @@ public class SuperGKSHttpBrowser {CookieStore cookieStore;
             //TODO Handle problems..
         }
         httpclient.close();
-        if(responseString == null)
+        if (responseString == null)
             responseString = "OK";
         return responseString;
     }
@@ -142,7 +142,8 @@ public class SuperGKSHttpBrowser {CookieStore cookieStore;
 
         String username, password, url;
 
-        public LoginTask() {}
+        public LoginTask() {
+        }
 
         public LoginTask(String username, String password) {
             this.username = username;
@@ -174,7 +175,7 @@ public class SuperGKSHttpBrowser {CookieStore cookieStore;
         AndroidHttpClient httpclient = AndroidHttpClient.newInstance(prefs.getString("User-Agent", Default.USER_AGENT));
 
         HttpConnectionParams.setConnectionTimeout(httpclient.getParams(), Integer.valueOf(prefs.getString("timeout", Default.timeout)) * 1000);
-        HttpConnectionParams.setSoTimeout(httpclient.getParams(), Integer.valueOf(prefs.getString("timeout", Default.timeout))*1000);
+        HttpConnectionParams.setSoTimeout(httpclient.getParams(), Integer.valueOf(prefs.getString("timeout", Default.timeout)) * 1000);
 
 
         //HttpGet httppost = new HttpGet(Default.URL_LOGIN);
@@ -203,14 +204,14 @@ public class SuperGKSHttpBrowser {CookieStore cookieStore;
             response = httpclient.execute(httppost, clientcontext);
             StatusLine statusLine = response.getStatusLine();
             responseCode = statusLine.getStatusCode();
-            if(responseCode == HttpStatus.SC_OK){
+            if (responseCode == HttpStatus.SC_OK || true) {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 response.getEntity().writeTo(out);
                 out.close();
                 responseString = out.toString();
                 //Log.e("HTML", responseString);
                 Log.e("HTTP STATUS", "OK");
-            } else{
+            } else {
                 //Closes the connection.
                 Log.e("HTTP STATUS", "...");
                 response.getEntity().getContent().close();
@@ -234,24 +235,15 @@ public class SuperGKSHttpBrowser {CookieStore cookieStore;
 
             response = httpclient.execute(httppost, clientcontext);
             StatusLine statusLine = response.getStatusLine();
-            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+            if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
                 Log.e("HTTP STATUS", "OK");
                 //responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
                 responseString = EntityUtils.toString(response.getEntity(), encoding);
-            } else{
+            } else {
                 Log.e("HTTP STATUS", "...");
                 //Closes the connection.
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
-            }
-
-            try {
-                String conError = Jsoup.parse(responseString).select("div.fade").first().text();
-                if (!conError.equals("")) {
-                    fadeMessage = conError;
-                }
-            } catch(Exception ex) {
-                ex.printStackTrace();
             }
 
         } catch (Exception ex) {

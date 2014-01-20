@@ -31,12 +31,8 @@
                         android:layout_gravity="center"
                         android:src="@drawable/ic_cat_gks"
                         android:focusable="false"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="3dp"
-                    android:layout_marginBottom="3dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="-3dp" />
+                    android:layout_alignParentTop="true" />
 
                 <TextView
                         android:id="@+id/tNom"

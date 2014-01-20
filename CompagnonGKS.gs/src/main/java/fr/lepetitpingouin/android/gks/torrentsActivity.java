@@ -499,7 +499,7 @@ public class torrentsActivity extends ActionBarActivity {
                         String estimatedRatio = String.format("%.2f", (new BSize(prefs.getString("upload", "0.00 Go")).getInMo() / estimatedDl) - 0.01);
                         map.put("ratio", estimatedRatio);
                         map.put("icon", String.valueOf(new TorrentCategorie().getIcon(mCatCode)));
-                        map.put("ratioBase", String.format("%.2f", Float.valueOf(prefs.getString("ratio", "0"))));
+                        map.put("ratioBase", prefs.getString("ratio", "0"));
                         listItem.add(map);
 
                     } catch (Exception e) {
