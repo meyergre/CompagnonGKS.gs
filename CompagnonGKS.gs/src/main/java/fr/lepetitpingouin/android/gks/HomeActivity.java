@@ -219,12 +219,11 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     public void onBookmarks(View v) {
-        //Toast.makeText(getApplicationContext(), "Ce bouton ne sert à rien.", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(getApplicationContext(), BookmarksActivity.class).putExtra("display", "bookmarks"));
+        startActivity(new Intent(getApplicationContext(), TorrentListActivity.class).putExtra("display", "bookmarks"));
     }
 
     public void onAutoGet(View v) {
-        //Toast.makeText(getApplicationContext(), "Ce bouton ne sert à rien.", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getApplicationContext(), TorrentListActivity.class).putExtra("display", "autoget"));
     }
 
     public void onPreferencesClick(View v) {

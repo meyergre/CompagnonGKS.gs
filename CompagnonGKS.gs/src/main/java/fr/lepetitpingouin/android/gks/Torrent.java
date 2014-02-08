@@ -16,12 +16,10 @@ import android.widget.Toast;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Map;
 
 public class Torrent {
 
@@ -32,6 +30,7 @@ public class Torrent {
     private AsyncDlLater dll;
     private AsyncDlLaterNot dllNot;
     private AsyncAddToAutoGet autoget;
+    private AsyncDelAutoget autogetNot;
     public Handler handler;
 
     public Torrent(Context context, String name, String id) {
@@ -60,6 +59,14 @@ public class Torrent {
         }
     }
 
+    public void unautoget(String id) {
+        autogetNot = new AsyncDelAutoget();
+        try {
+            autogetNot.execute(id);
+        } catch (Exception e) {
+        }
+    }
+
     public void bookmark() {
         dll = new AsyncDlLater();
         try {
@@ -68,10 +75,10 @@ public class Torrent {
         }
     }
 
-    public void unbookmark() {
+    public void unbookmark(String id) {
         dllNot = new AsyncDlLaterNot();
         try {
-            dllNot.execute();
+            dllNot.execute(id);
         } catch (Exception e) {
         }
     }
@@ -129,9 +136,11 @@ public class Torrent {
     }
 
     private String AddOrDelGet(String action, String tid, final String what) {
-        // action : add | dell
+        // action : add | del
         // tid : id
         // what : type
+        final String _what = what.contains("book") ? "Bookmarks" : "Autoget";
+        final String _action = action.contains("add") ? "Ajouté à" : "Supprimé de";
         String ajax = Default.URL_INDEX + "/ajax.php?action=" + action + "&type=" + what + "&tid=" + tid;
         try {
             String username = prefs.getString("account_username", ""), password = prefs.getString("account_password", "");
@@ -146,11 +155,11 @@ public class Torrent {
             final Integer returnCode = browser.getResponseCode();
             Log.e("retCode", returnCode+"");
 
-            if(returnCode==302) {
+            if (returnCode == 302 || returnCode == 200) {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(context, "Ajouté à la liste " + what + "!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, _action + " la liste " + _what + "!", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -171,56 +180,34 @@ public class Torrent {
         }
     }
 
-    private class AsyncDlLaterNot extends AsyncTask<Void, String[], Void> {
-
-        String msg = "";
-
+    private class AsyncDelAutoget extends AsyncTask<String, String[], String> {
         @Override
-        protected Void doInBackground(Void... arg0) {
-            String username = prefs.getString("login", ""), password = prefs
-                    .getString("password", "");
+        protected String doInBackground(String... params) {
 
-            Connection.Response res = null;
-            Document doc = null;
+            String username = prefs.getString("account_username", ""), password = prefs.getString("account_password", "");
+            SuperGKSHttpBrowser browser = new SuperGKSHttpBrowser(context);
 
-            try {
-                res = Jsoup
-                        .connect(Default.URL_LOGIN)
-                        .data("login", username, "password", password)
-                        .method(Connection.Method.POST)
-                        .userAgent(prefs.getString("User-Agent", Default.USER_AGENT))
-                        .timeout(Integer.valueOf(prefs.getString("timeoutValue", Default.timeout)) * 1000)
-.maxBodySize(0).followRedirects(true).ignoreContentType(true)
-                        .execute();
-
-                Map<String, String> Cookies = res.cookies();
-
-                res = Jsoup
-                        .connect("")
-                        .cookies(Cookies)
-                        .data("id", "", "submit", "Supprimer", "ids[]", id)
-                        .timeout(Integer.valueOf(prefs.getString("timeoutValue", Default.timeout)) * 1000)
-.maxBodySize(0).followRedirects(true).ignoreContentType(true)
-                        .userAgent(prefs.getString("User-Agent", Default.USER_AGENT))
-                        .method(Connection.Method.POST)
-                        .execute();
-
-                doc = res.parse();
-
-                msg = doc.select("div#messages").first().text();
-
-            } catch (Exception e) {
-                Log.e("Erreur connect :", e.toString());
-            }
+            String html = browser.login(username, password)
+                    .connect("https://gks.gs/autoget/delete&id=" + params[0])
+                    .executeInAsyncTask();
+            //AddOrDelGet("del", params[0], "autoget");
+            if (browser.getResponseCode() == 302 || browser.getResponseCode() == 200)
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(context, "Supprimé de la liste Autoget!", Toast.LENGTH_LONG).show();
+                    }
+                });
             return null;
         }
+    }
 
+    private class AsyncDlLaterNot extends AsyncTask<String, String[], String> {
         @Override
-        protected void onPostExecute(Void result) {
-            if(!msg.equals(""))
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        protected String doInBackground(String... params) {
+            AddOrDelGet("del", params[0], "delbookmark");
+            return null;
         }
-
     }
 
     private class AsyncDlLater extends AsyncTask<Void, String[], Void> {

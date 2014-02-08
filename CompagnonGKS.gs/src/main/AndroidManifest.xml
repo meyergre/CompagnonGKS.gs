@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.lepetitpingouin.android.gks"
-    android:versionCode="1"
-    android:versionName="0.1 BETA">
+    android:versionCode="2"
+    android:versionName="0.2 BETA">
 
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -69,7 +68,7 @@
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|layoutDirection|screenLayout" />
 
         <activity
-            android:name=".BookmarksActivity"
+            android:name=".TorrentListActivity"
             android:label="Mon AutoGet"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|layoutDirection|screenLayout" />
 
@@ -92,6 +91,13 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_search" />
         </receiver>
+
+        <receiver android:name=".Receiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

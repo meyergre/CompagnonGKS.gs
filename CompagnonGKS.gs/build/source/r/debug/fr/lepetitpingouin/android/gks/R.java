@@ -1084,9 +1084,9 @@ public final class R {
         public static final int action_menu_divider = 0x7f080015;
         public static final int action_menu_presenter = 0x7f080016;
         public static final int action_mode_close_button = 0x7f080024;
-        public static final int action_search = 0x7f0800bc;
+        public static final int action_search = 0x7f0800c0;
         public static final int action_search_edittext = 0x7f080044;
-        public static final int action_update = 0x7f0800bb;
+        public static final int action_update = 0x7f0800bf;
         public static final int activity_chooser_view_content = 0x7f080025;
         public static final int always = 0x7f08000f;
         public static final int beginning = 0x7f08000a;
@@ -1178,10 +1178,10 @@ public final class R {
         public static final int none = 0x7f080009;
         public static final int normal = 0x7f080000;
         public static final int prez = 0x7f080048;
-        public static final int prez_context_menu_autoget = 0x7f0800be;
-        public static final int prez_context_menu_bookmark = 0x7f0800bf;
-        public static final int prez_context_menu_download = 0x7f0800bd;
-        public static final int prez_context_menu_share = 0x7f0800c0;
+        public static final int prez_context_menu_autoget = 0x7f0800c2;
+        public static final int prez_context_menu_bookmark = 0x7f0800c3;
+        public static final int prez_context_menu_download = 0x7f0800c1;
+        public static final int prez_context_menu_share = 0x7f0800c4;
         public static final int progress_category = 0x7f0800a2;
         public static final int progress_circular = 0x7f080018;
         public static final int progress_horizontal = 0x7f080019;
@@ -1231,11 +1231,12 @@ public final class R {
         public static final int textView9 = 0x7f08009b;
         public static final int title = 0x7f08002b;
         public static final int top_action_bar = 0x7f080020;
-        public static final int torrent_context_menu_autoget = 0x7f0800c3;
-        public static final int torrent_context_menu_bookmark = 0x7f0800c4;
-        public static final int torrent_context_menu_download = 0x7f0800c2;
-        public static final int torrent_context_menu_open = 0x7f0800c1;
-        public static final int torrent_context_menu_share = 0x7f0800c5;
+        public static final int torrent_context_menu_autoget = 0x7f0800c5;
+        public static final int torrent_context_menu_bookmark = 0x7f0800c6;
+        public static final int torrent_context_menu_delete = 0x7f0800bd;
+        public static final int torrent_context_menu_download = 0x7f0800bc;
+        public static final int torrent_context_menu_open = 0x7f0800bb;
+        public static final int torrent_context_menu_share = 0x7f0800be;
         public static final int torrent_extra = 0x7f080087;
         public static final int tvCatListFilter = 0x7f080052;
         public static final int tx_aura = 0x7f08007c;
@@ -1321,10 +1322,11 @@ public final class R {
 
     public static final class menu {
         public static final int about = 0x7f0d0000;
-        public static final int main = 0x7f0d0001;
-        public static final int prez = 0x7f0d0002;
-        public static final int search = 0x7f0d0003;
-        public static final int torrent_context_menu = 0x7f0d0004;
+        public static final int bookmark_context_menu = 0x7f0d0001;
+        public static final int main = 0x7f0d0002;
+        public static final int prez = 0x7f0d0003;
+        public static final int search = 0x7f0d0004;
+        public static final int torrent_context_menu = 0x7f0d0005;
     }
 
     public static final class string {

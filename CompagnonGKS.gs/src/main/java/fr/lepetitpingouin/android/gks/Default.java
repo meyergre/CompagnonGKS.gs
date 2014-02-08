@@ -22,5 +22,6 @@ public class Default {
     public static String URL_INDEX = "https://gks.gs";
     public static String URL_BOOKMARKS = "https://gks.gs/bookmark/";
     public static String URL_AUTOGET = "https://gks.gs/autoget/";
+    public static String URL_INBOX = "https://gks.gs/mailbox/";
 
 }

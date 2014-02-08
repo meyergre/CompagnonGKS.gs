@@ -1,6 +1,7 @@
 version 0.2 BETA
 - Touche "Recherche" sur le clavier dans la page de recherche
-- Support des bookmarks
+- Support des bookmarks (consultation, téléchargement et suppression)
+- Support des autoget (consultation, téléchargement et suppression)
 - Téléchargement de l'authkey
 - Ouverture du site mobile depuis le widget
 

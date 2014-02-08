@@ -223,8 +223,12 @@ public class torrentDetailsActivity extends ActionBarActivity {
 
             details_www.loadDataWithBaseURL(null, prez, mimeType, encoding, null);
 
-            TextView tdtTaille = (TextView) findViewById(R.id.tdt_taille);
-            tdtTaille.setText(new BSize(doc.select("p:has(.torr-taille)").first().text().replaceAll(".*:\\s(.*)\\s*", "$1")).convert());
+
+            try {
+                TextView tdtTaille = (TextView) findViewById(R.id.tdt_taille);
+                tdtTaille.setText(new BSize(doc.select("p:has(.torr-taille)").first().text().replaceAll(".*:\\s(.*)\\s*", "$1")).convert());
+            } finally {
+            }
 
 
             String tdt_seeders = doc.select(".upload").first().text();
